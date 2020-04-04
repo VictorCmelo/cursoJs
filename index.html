@@ -1,102 +1,144 @@
 ﻿<html>
+    <!-- CSS -->
+<style>
+    #pai {
+        display: flex;
+        flex-flow: 'row';
+        flex-direction: 'row';
+        flex-wrap: 'nowrap';
+        justify-content: 'center';
+        align-content: 'center';
+        align-items: 'center';
+    }
+
+    #app,
+    #bloco1,
+    #bloco2 {
+        padding: 40px;
+        border-color: black;
+        border: 1px solid;
+    }
+</style>
 
 <head>
     <title>Curso JAvascript</title>
 </head>
 
 <body>
+    <div id="pai">
+
+        <div id="app">
+            <button onclick="addCaixa()">Add Caixa</button>
+        </div>
+
+        <div id="bloco1">
+            <input type="text" name="nome">
+            <button onclick="adicionar()">Adicionar</button>
+        </div>
+
+        <div id="bloco2">
+            <h3>Lista de Nomes</h3>
+            <ul id="lista"> </ul>
+        </div>
+
+    </div>
+
+        <!-- Javascript -->
     <script>
 
-        var endereco = {
-            rua: "Rua dos pinheiros",
-            numero: 1293,
-            bairro: "Centro",
-            cidade: "São Paulo",
-            uf: "SP"
-        };
+        /* Ex 1 - Crie um botão que ao ser clicado cria um novo elemento em tela com
+         a forma de um quadradovermelho com 100px de altura e largura. Sempre que o
+          botão for clicado um novo quadrado deveaparecer na tela */
+        var elementApp = document.querySelector('#app');
+        function addCaixa() {
 
-        var skills = ["Javascript", "ReactJS", "React Native"];
+            var elementBox = document.createElement('div');
 
-        var anosEstudo = 5;
+            elementBox.style.width = 100;
+            elementBox.style.backgroundColor = '#f00';
+            elementBox.style.height = 100;
+            elementBox.style.marginTop = '20px';
 
-        let usuarios = [
-            {
-                nome: "Diego",
-                habilidades: ["Javascript", "ReactJS", "Redux"]
-            },
-            {
-                nome: "Gabriel",
-                habilidades: ["VueJS", "Ruby on Rails", "Elixir"]
-            }
-        ];
+            // Adicionado no Ex 2 
+            elementBox.setAttribute('onmouseover',
+                'style.backgroundColor = getRandomColor()');
 
-        // ----------- Funções -----------
-
-
-        //Ex 1
-        function preencheEndereco(endereco) {
-            console.log("O usuário mora em " + endereco.cidade + '/' + endereco.uf + ", no bairro " + endereco.bairro + ", na rua " + endereco.rua + " com o nº " + endereco.numero);
+            elementApp.appendChild(elementBox);
         }
 
-        // Ex 2
-        function pares(x, y) {
-            for ($i = x; $i <= y; $i++) {
-                var par = $i % 2;
-
-                if (par == 0)
-                    console.log($i);
-
+        /* EX 2 - Utilizando o resultado do primeiro desafio, toda vez que o usuário 
+        passar o mouse por cima dealgum quadrado troque sua cor para uma cor 
+        aleatória gerada pela função abaixo*/
+        function getRandomColor() {
+            var letters = "0123456789ABCDEF";
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
             }
+            return color;
         }
+        var newColor = getRandomColor()
 
-        //Ex 3
-        function temHabilidade(skills) {
-            // função indexOf retorna a posição do vetor que ocore 
-            if (skills.indexOf('Javascript') <= 0) {
-                return true;
-            }
+        /* EX 3 - Preencha uma lista (<ul>) no HTML com os itens da seguinte forma:
+        Diegol
+        Gabriel
+        Lucas*/
 
-            return false
+        var usuarios = ["Diego", "Gabriel", "Lucas"];
 
-        }
+        // Função para percorrer o vetor
+        usuarios.forEach(preenhceValor);
 
-        //Ex 4
-        function experiencia(anos) {
-            console.log(anos);
-            if (anos <= 1) {
-                console.log("Iniciante");
-            } else if (1 < anos && anos <= 3) {
-                console.log("Intermediário");
-            } else if (3 < anos && anos <= 6) {
-                console.log("Avançado");
-            } else if (anos >= 7) {
-                console.log("Jedi Master");
-            }
-        }
-
-        //Ex 5
         function preenhceValor(usuarios) {
-            var i = 0;
-            for (let value of usuarios) {
 
-                console.log("O " + usuarios[i].nome + " possui as habilidades: " + usuarios[i].habilidades.join());
-                i++;
-            }
+            //Selecionamos o elemento alvo
+            var ulElement = document.querySelector('#lista');
+
+            // criamos o elemento da lista
+            var liElement = document.createElement('li');
+
+            //criamos o texto - que vem do vetor
+            var textElement = document.createTextNode(usuarios);
+
+            //colocamos o texto "dentro do li"
+            liElement.appendChild(textElement);
+
+            //Colocamos o elemento li - dentro da lista (ul)
+            ulElement.appendChild(liElement);
+
         }
+        /*EX 4 - Seguindo o resultado do exercício anterior adicione um input 
+        em tela e um botão como a seguir: 
+                <input type="text" name="nome">
+                <button onClick="adicionar()">Adicionar</button>
 
+         Ao clicar no botão, a função adicionar() deve ser disparada adicionando
+         um novo item a lista de nomes baseado no nome preenchido no input e
+         renderizando o novo item em tela juntos aosdemais itens anteriores. 
+        Além disso, o conteúdo do input deve ser apagado após o clique.
+        */
 
+        function adicionar() {
+            var inputElement = document.querySelector('input[name=nome]');
 
-        //pares(32, 321);
-        //preencheEndereco(endereco);
-        //console.log(temHabilidade(skills)); // true ou false
-        //experiencia(anosEstudo);
-        //preenhceValor(usuarios);
+            //Selecionamos o elemento alvo
+            var ulElement = document.querySelector('#lista');
 
-       
+            // criamos o elemento da lista
+            var liElement = document.createElement('li');
 
+            var texto = inputElement.value;
+
+            var userText = document.createTextNode(texto);
+
+            liElement.appendChild(userText);
+
+            ulElement.appendChild(liElement);
+
+            inputElement.value = '';
+        }
 
     </script>
 </body>
 
 </html>
-
